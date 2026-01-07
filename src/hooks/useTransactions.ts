@@ -3,9 +3,9 @@ import { createClient } from '@/lib/supabase/client'
 import { Database } from '@/types/database'
 import { toast } from 'sonner'
 
-type Transaction = Database['public']['Tables']['transactions']['Row']
-type TransactionInsert = Database['public']['Tables']['transactions']['Insert']
-type TransactionUpdate = Database['public']['Tables']['transactions']['Update']
+type Transaction = Database['violeta_gest']['Tables']['transactions']['Row']
+type TransactionInsert = Database['violeta_gest']['Tables']['transactions']['Insert']
+type TransactionUpdate = Database['violeta_gest']['Tables']['transactions']['Update']
 
 type TransactionsFilter = {
     dateFrom?: Date
@@ -25,6 +25,7 @@ export function useTransactions(filters?: TransactionsFilter) {
         queryKey: ['transactions', filters],
         queryFn: async () => {
             let query = supabase
+                .schema('violeta_gest')
                 .from('transactions')
                 .select(`
           *,
@@ -62,6 +63,7 @@ export function useTransactions(filters?: TransactionsFilter) {
     const createTransaction = useMutation({
         mutationFn: async (newTransaction: TransactionInsert) => {
             const { data, error } = await supabase
+                .schema('violeta_gest')
                 .from('transactions')
                 // @ts-ignore
                 .insert(newTransaction)
@@ -83,6 +85,7 @@ export function useTransactions(filters?: TransactionsFilter) {
     const updateTransaction = useMutation({
         mutationFn: async ({ id, ...updates }: TransactionUpdate & { id: string }) => {
             const { data, error } = await supabase
+                .schema('violeta_gest')
                 .from('transactions')
                 // @ts-ignore
                 .update(updates)
@@ -105,6 +108,7 @@ export function useTransactions(filters?: TransactionsFilter) {
     const deleteTransaction = useMutation({
         mutationFn: async (id: string) => {
             const { error } = await supabase
+                .schema('violeta_gest')
                 .from('transactions')
                 .delete()
                 .eq('id', id)

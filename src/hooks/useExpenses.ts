@@ -5,9 +5,9 @@ import { createClient } from '@/lib/supabase/client'
 import { Database } from '@/types/database'
 import { toast } from 'sonner'
 
-type Expense = Database['public']['Tables']['expenses']['Row']
-type ExpenseInsert = Database['public']['Tables']['expenses']['Insert']
-type ExpenseUpdate = Database['public']['Tables']['expenses']['Update']
+type Expense = Database['violeta_gest']['Tables']['expenses']['Row']
+type ExpenseInsert = Database['violeta_gest']['Tables']['expenses']['Insert']
+type ExpenseUpdate = Database['violeta_gest']['Tables']['expenses']['Update']
 
 type ExpensesFilter = {
     dateFrom?: Date
@@ -24,6 +24,7 @@ export function useExpenses(filters?: ExpensesFilter) {
         queryKey: ['expenses', filters],
         queryFn: async () => {
             let query = supabase
+                .schema('violeta_gest')
                 .from('expenses')
                 .select('*')
                 .order('date', { ascending: false })
@@ -55,6 +56,7 @@ export function useExpenses(filters?: ExpensesFilter) {
     const createExpense = useMutation({
         mutationFn: async (newExpense: ExpenseInsert) => {
             const { data, error } = await supabase
+                .schema('violeta_gest')
                 .from('expenses')
                 // @ts-ignore
                 .insert(newExpense)
@@ -76,6 +78,7 @@ export function useExpenses(filters?: ExpensesFilter) {
     const updateExpense = useMutation({
         mutationFn: async ({ id, ...updates }: ExpenseUpdate & { id: string }) => {
             const { data, error } = await supabase
+                .schema('violeta_gest')
                 .from('expenses')
                 // @ts-ignore
                 .update(updates)
@@ -98,6 +101,7 @@ export function useExpenses(filters?: ExpensesFilter) {
     const deleteExpense = useMutation({
         mutationFn: async (id: string) => {
             const { error } = await supabase
+                .schema('violeta_gest')
                 .from('expenses')
                 .delete()
                 .eq('id', id)

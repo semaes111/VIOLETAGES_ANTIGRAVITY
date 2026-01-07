@@ -39,7 +39,7 @@ import {
 } from '@/components/ui/table'
 import { Database } from '@/types/database'
 
-type Expense = Database['public']['Tables']['expenses']['Row']
+type Expense = Database['violeta_gest']['Tables']['expenses']['Row']
 
 export const columns: ColumnDef<Expense>[] = [
     {

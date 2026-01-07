@@ -76,7 +76,7 @@ export function TransactionForm({ onSuccess }: { onSuccess?: () => void }) {
     const { data: patients } = useQuery({
         queryKey: ['patients'],
         queryFn: async () => {
-            const { data } = await supabase.from('patients').select('id, name').order('name')
+            const { data } = await supabase.schema('violeta_gest').from('patients').select('id, name').order('name')
             return (data || []) as { id: string; name: string }[]
         }
     })
@@ -85,8 +85,8 @@ export function TransactionForm({ onSuccess }: { onSuccess?: () => void }) {
     const { data: treatmentsList } = useQuery({
         queryKey: ['treatments'],
         queryFn: async () => {
-            const { data } = await supabase.from('treatments').select('*').order('name')
-            return (data || []) as Database['public']['Tables']['treatments']['Row'][]
+            const { data } = await supabase.schema('violeta_gest').from('treatments').select('*').order('name')
+            return (data || []) as Database['violeta_gest']['Tables']['treatments']['Row'][]
         }
     })
 

@@ -41,7 +41,7 @@ import { Database } from '@/types/database'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 
-type Transaction = Database['public']['Tables']['transactions']['Row'] & {
+type Transaction = Database['violeta_gest']['Tables']['transactions']['Row'] & {
     patient: { name: string } | null
 }
 

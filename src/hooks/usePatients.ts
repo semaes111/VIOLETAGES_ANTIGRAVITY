@@ -5,9 +5,9 @@ import { createClient } from '@/lib/supabase/client'
 import { Database } from '@/types/database'
 import { toast } from 'sonner'
 
-type Patient = Database['public']['Tables']['patients']['Row']
-type PatientInsert = Database['public']['Tables']['patients']['Insert']
-type PatientUpdate = Database['public']['Tables']['patients']['Update']
+type Patient = Database['violeta_gest']['Tables']['patients']['Row']
+type PatientInsert = Database['violeta_gest']['Tables']['patients']['Insert']
+type PatientUpdate = Database['violeta_gest']['Tables']['patients']['Update']
 
 type PatientsFilter = {
     search?: string
@@ -22,6 +22,7 @@ export function usePatients(filters?: PatientsFilter) {
         queryKey: ['patients', filters],
         queryFn: async () => {
             let query = supabase
+                .schema('violeta_gest')
                 .from('patients')
                 .select('*')
                 .order('name')
@@ -53,6 +54,7 @@ export function usePatients(filters?: PatientsFilter) {
     const createPatient = useMutation({
         mutationFn: async (newPatient: PatientInsert) => {
             const { data, error } = await supabase
+                .schema('violeta_gest')
                 .from('patients')
                 // @ts-ignore
                 .insert(newPatient)
@@ -74,6 +76,7 @@ export function usePatients(filters?: PatientsFilter) {
     const updatePatient = useMutation({
         mutationFn: async ({ id, ...updates }: PatientUpdate & { id: string }) => {
             const { data, error } = await supabase
+                .schema('violeta_gest')
                 .from('patients')
                 // @ts-ignore
                 .update(updates)
@@ -96,6 +99,7 @@ export function usePatients(filters?: PatientsFilter) {
     const deletePatient = useMutation({
         mutationFn: async (id: string) => {
             const { error } = await supabase
+                .schema('violeta_gest')
                 .from('patients')
                 .delete()
                 .eq('id', id)

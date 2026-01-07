@@ -40,7 +40,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Database } from '@/types/database'
 
-type Patient = Database['public']['Tables']['patients']['Row']
+type Patient = Database['violeta_gest']['Tables']['patients']['Row']
 
 export const columns: ColumnDef<Patient>[] = [
     {
